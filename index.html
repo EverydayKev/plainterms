@@ -147,9 +147,9 @@ nav:not(.scrolled) .nav-links a{color:rgba(255,255,255,0.65);}
 }
 .contrast-caption{font-size:0.76rem;color:rgba(255,255,255,0.4);max-width:200px;text-align:center;line-height:1.5;}
 
-/* ── BOOKCASE SVG FRAME ── */
+/* ── BOOKCASE FRAME ── */
 .bookcase-frame{
-  width:190px;height:250px;
+  width:200px;height:268px;
   background:#1E1208;border-radius:8px;
   border:2px solid #3A2A15;overflow:hidden;
   box-shadow:0 8px 36px rgba(0,0,0,0.6);
@@ -164,44 +164,45 @@ nav:not(.scrolled) .nav-links a{color:rgba(255,255,255,0.65);}
 .bc-body{
   flex:1;background:#160C04;
   padding:10px 8px 6px;
-  display:flex;flex-direction:column;gap:0;
+  display:flex;flex-direction:column;
 }
 .bc-shelf{
-  height:3px;
-  background:linear-gradient(90deg,#3B2510,#7A5020,#3B2510);
-  border-radius:2px;margin-top:4px;
-  box-shadow:0 3px 8px rgba(0,0,0,0.5);
+  height:4px;
+  background:linear-gradient(90deg,#3B2510,#8A6030,#3B2510);
+  border-radius:2px;margin-top:6px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.6);
 }
-.bc-books{display:flex;gap:3px;align-items:flex-end;flex:1;padding-top:6px;}
+.bc-books{display:flex;gap:4px;align-items:flex-end;flex:1;padding-top:8px;}
 .bk{
   flex:1;border-radius:3px 1px 1px 3px;
   display:flex;align-items:center;justify-content:center;
-  position:relative;min-width:26px;
+  position:relative;
 }
 .bk-txt{
-  font-family:var(--font-display);font-size:5.5px;font-weight:700;
-  letter-spacing:0.1em;text-transform:uppercase;
+  font-family:var(--font-display);font-size:8.5px;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
   writing-mode:vertical-rl;transform:rotate(180deg);
-  color:rgba(255,255,255,0.72);line-height:1;
+  color:rgba(255,255,255,0.92);line-height:1;
+  text-shadow:0 1px 3px rgba(0,0,0,0.5);
 }
 .bk::before{
-  content:'';position:absolute;right:0;top:0;bottom:0;width:2px;
-  background:linear-gradient(180deg,rgba(200,160,60,0.7),rgba(200,160,60,0.2),rgba(200,160,60,0.7));
+  content:'';position:absolute;right:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,rgba(220,180,80,0.8),rgba(200,150,50,0.3),rgba(220,180,80,0.8));
 }
 .bk::after{
-  content:'';position:absolute;left:4px;top:12%;
-  width:calc(100% - 8px);height:1px;
-  background:rgba(255,255,255,0.08);
-  box-shadow:0 5px 0 rgba(255,255,255,0.05),0 10px 0 rgba(255,255,255,0.05);
+  content:'';position:absolute;left:4px;top:10%;
+  width:calc(100% - 10px);height:1px;
+  background:rgba(255,255,255,0.12);
+  box-shadow:0 6px 0 rgba(255,255,255,0.07),0 12px 0 rgba(255,255,255,0.05);
 }
-.bk1{background:linear-gradient(150deg,#5C1A1A,#7A2828);height:90%;}
-.bk2{background:linear-gradient(150deg,#1A3558,#22487A);height:96%;}
-.bk3{background:linear-gradient(150deg,#2A481A,#386020);height:82%;}
-.bk4{background:linear-gradient(150deg,#483810,#6A5418);height:94%;}
-.bk5{background:linear-gradient(150deg,#38184A,#502462);height:88%;}
+.bk1{background:linear-gradient(160deg,#5C1A1A,#7A2828);height:88%;}
+.bk2{background:linear-gradient(160deg,#1A3558,#22487A);height:96%;}
+.bk3{background:linear-gradient(160deg,#2A481A,#386020);height:80%;}
+.bk4{background:linear-gradient(160deg,#483810,#6A5418);height:93%;}
+.bk5{background:linear-gradient(160deg,#38184A,#502462);height:86%;}
 .bc-footnote{
-  text-align:center;font-size:4.5px;letter-spacing:0.08em;
-  color:rgba(255,255,255,0.18);padding:4px 0;
+  text-align:center;font-size:5.5px;letter-spacing:0.07em;
+  color:rgba(255,255,255,0.22);padding:5px 0 2px;
   font-family:var(--font-body);font-style:italic;
 }
 
@@ -940,7 +941,7 @@ footer span:last-child{font-size:0.75rem;color:rgba(255,255,255,0.22);font-style
     <h2 class="section-head" style="color:#fff;">This is the beginning.<br>Not the finished article.</h2>
     <p class="section-body" style="color:rgba(255,255,255,0.75);margin:0 auto 2rem;">PLAIN TERMS is a working concept pitch from The Everyday Technologist. If you run an ICT programme, community digital literacy initiative, or fund projects that help everyday Australians navigate technology — this conversation is for you.</p>
     <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-      <a href="mailto:info@everydaytech.com.au" class="btn-white">Start a conversation →</a>
+      <a href="mailto:hello@everydaytech.com.au" class="btn-white">Start a conversation →</a>
       <a href="https://everydaytech.com.au" class="btn-ghost-white" target="_blank">The Everyday Technologist</a>
     </div>
   </div>
