@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLAIN TERMS · Pitch — The Everyday Technologist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:wght@300;400;600;700&family=Fira+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── BRAND TOKENS (et-theme-people) ── */
+:root {
+  --brand:        #fc8c06;
+  --brand-dark:   #b86200;
+  --brand-mid:    #fd9f2f;
+  --brand-light:  #FFF5E6;
+  --brand-border: #fcd59a;
+  --deep-bg:      #1A1000;
+  --deep-bg2:     #241800;
+  --bg:           #FFFFFF;
+  --surface:      #FFFBF5;
+  --surface2:     #FFF8F0;
+  --border:       #E8D5BE;
+  --text:         #1A0E00;
+  --text-muted:   #6B5B45;
+  --text-light:   #A08060;
+  --on-deep:      #FFFFFF;
+  --font-display: 'Raleway', 'Open Sans', Arial, sans-serif;
+  --font-body:    'Open Sans', Arial, sans-serif;
+  --font-brand:   'Fira Sans', 'Open Sans', Arial, sans-serif;
+  --ease:         cubic-bezier(0.22,1,0.36,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased;}
+
+/* ── GATE ── */
+#gate{
+  position:fixed;inset:0;background:var(--deep-bg);
+  display:flex;align-items:center;justify-content:center;z-index:1000;
+}
+.gate-inner{text-align:center;max-width:360px;padding:2rem;}
+.gate-logo{
+  font-family:var(--font-brand);font-size:1.6rem;font-weight:700;
+  color:#fff;margin-bottom:0.3rem;letter-spacing:0.06em;
+}
+.gate-logo .ai{color:var(--brand);}
+.gate-sub{color:rgba(255,255,255,0.45);font-size:0.875rem;margin-bottom:2rem;font-style:italic;}
+.gate-row{display:flex;gap:0.5rem;}
+.gate-row input{
+  flex:1;padding:0.75rem 1rem;border:1.5px solid rgba(255,255,255,0.15);
+  border-radius:7px;background:rgba(255,255,255,0.06);color:#fff;
+  font-family:var(--font-body);font-size:1rem;outline:none;
+  transition:border-color 0.2s;
+}
+.gate-row input::placeholder{color:rgba(255,255,255,0.3);}
+.gate-row input:focus{border-color:var(--brand);}
+.gate-row button{
+  padding:0.75rem 1.5rem;background:var(--brand);color:#fff;
+  border:none;border-radius:7px;font-family:var(--font-body);
+  font-size:1rem;font-weight:700;cursor:pointer;transition:background 0.2s;
+}
+.gate-row button:hover{background:var(--brand-dark);}
+.gate-error{color:var(--brand-mid);font-size:0.875rem;margin-top:1rem;display:none;}
+
+#main{display:none;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 2.5rem;z-index:100;
+  transition:background 0.3s,box-shadow 0.3s;
+}
+nav.scrolled{
+  background:rgba(255,251,245,0.96);backdrop-filter:blur(10px);
+  box-shadow:0 1px 0 var(--border);
+}
+.nav-brand{
+  font-family:var(--font-brand);font-size:1rem;font-weight:700;
+  text-decoration:none;color:var(--deep-bg);letter-spacing:0.06em;
+}
+.nav-brand .ai{color:var(--brand);}
+nav:not(.scrolled) .nav-brand{color:#fff;}
+.nav-links{display:flex;gap:1.75rem;align-items:center;}
+.nav-links a{
+  text-decoration:none;color:var(--text-muted);
+  font-size:0.82rem;font-weight:600;letter-spacing:0.03em;
+  transition:color 0.2s;
+}
+nav:not(.scrolled) .nav-links a{color:rgba(255,255,255,0.65);}
+.nav-links a:hover{color:var(--brand);}
+
+/* ── ANIMATIONS ── */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.6s var(--ease),transform 0.6s var(--ease);}
+.fade-up.visible{opacity:1;transform:none;}
+
+/* ── HERO (deep) ── */
+#hero{
+  min-height:100vh;background:var(--deep-bg);
+  display:flex;align-items:center;justify-content:center;
+  padding:8rem 2rem 5rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 55% at 50% 0%, rgba(252,140,6,0.12) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-inner{max-width:960px;width:100%;position:relative;}
+.hero-eyebrow{
+  font-family:var(--font-body);font-size:0.72rem;font-weight:700;
+  letter-spacing:0.16em;text-transform:uppercase;color:var(--brand);
+  margin-bottom:1.25rem;
+}
+.hero-inner h1{
+  font-family:var(--font-display);
+  font-size:clamp(2.2rem,4.8vw,4rem);
+  line-height:1.12;font-weight:700;letter-spacing:-0.02em;
+  color:#fff;margin-bottom:3.5rem;
+}
+.hero-inner h1 em{color:var(--brand);font-style:italic;}
+
+/* ── CONTRAST ILLUSTRATIONS ── */
+.contrast-wrap{
+  display:flex;align-items:flex-start;justify-content:center;
+  gap:2.5rem;margin:0 auto 3.5rem;max-width:800px;
+}
+.contrast-vs{
+  font-family:var(--font-display);font-size:1.1rem;
+  color:rgba(255,255,255,0.3);font-style:italic;
+  flex-shrink:0;padding-top:4.5rem;
+}
+.contrast-side{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.85rem;}
+.contrast-label{
+  font-family:var(--font-display);
+  font-size:clamp(0.95rem,2vw,1.25rem);
+  font-weight:700;line-height:1.25;text-align:center;
+}
+.not-label{color:#e07070;}
+.but-label{color:var(--brand);}
+.contrast-label em{
+  display:block;font-family:var(--font-body);font-style:italic;
+  font-size:0.68em;font-weight:400;margin-top:0.3em;
+  opacity:0.55;
+}
+.contrast-caption{font-size:0.76rem;color:rgba(255,255,255,0.4);max-width:200px;text-align:center;line-height:1.5;}
+
+/* ── BOOKCASE SVG FRAME ── */
+.bookcase-frame{
+  width:190px;height:250px;
+  background:#1E1208;border-radius:8px;
+  border:2px solid #3A2A15;overflow:hidden;
+  box-shadow:0 8px 36px rgba(0,0,0,0.6);
+  display:flex;flex-direction:column;
+}
+.bc-bar{
+  background:#2A2A2A;padding:5px 8px;
+  display:flex;align-items:center;gap:4px;flex-shrink:0;
+  border-bottom:1px solid #111;
+}
+.bc-dot{width:6px;height:6px;border-radius:50%;}
+.bc-body{
+  flex:1;background:#160C04;
+  padding:10px 8px 6px;
+  display:flex;flex-direction:column;gap:0;
+}
+.bc-shelf{
+  height:3px;
+  background:linear-gradient(90deg,#3B2510,#7A5020,#3B2510);
+  border-radius:2px;margin-top:4px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.5);
+}
+.bc-books{display:flex;gap:3px;align-items:flex-end;flex:1;padding-top:6px;}
+.bk{
+  flex:1;border-radius:3px 1px 1px 3px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;min-width:26px;
+}
+.bk-txt{
+  font-family:var(--font-display);font-size:5.5px;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  color:rgba(255,255,255,0.72);line-height:1;
+}
+.bk::before{
+  content:'';position:absolute;right:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,rgba(200,160,60,0.7),rgba(200,160,60,0.2),rgba(200,160,60,0.7));
+}
+.bk::after{
+  content:'';position:absolute;left:4px;top:12%;
+  width:calc(100% - 8px);height:1px;
+  background:rgba(255,255,255,0.08);
+  box-shadow:0 5px 0 rgba(255,255,255,0.05),0 10px 0 rgba(255,255,255,0.05);
+}
+.bk1{background:linear-gradient(150deg,#5C1A1A,#7A2828);height:90%;}
+.bk2{background:linear-gradient(150deg,#1A3558,#22487A);height:96%;}
+.bk3{background:linear-gradient(150deg,#2A481A,#386020);height:82%;}
+.bk4{background:linear-gradient(150deg,#483810,#6A5418);height:94%;}
+.bk5{background:linear-gradient(150deg,#38184A,#502462);height:88%;}
+.bc-footnote{
+  text-align:center;font-size:4.5px;letter-spacing:0.08em;
+  color:rgba(255,255,255,0.18);padding:4px 0;
+  font-family:var(--font-body);font-style:italic;
+}
+
+/* ── PLAIN CARD ── */
+.plain-card-frame{
+  width:190px;height:250px;
+  background:#FAFAF8;border-radius:8px;
+  border:2px solid #DDD;overflow:hidden;
+  box-shadow:0 8px 36px rgba(0,0,0,0.35);
+  display:flex;flex-direction:column;
+}
+.pc-bar{
+  background:#ECECEC;padding:5px 8px;
+  display:flex;align-items:center;gap:4px;flex-shrink:0;
+  border-bottom:1px solid #D8D8D8;
+}
+.pc-body{flex:1;padding:10px 9px;display:flex;flex-direction:column;gap:7px;}
+.pc-header{
+  background:var(--brand);border-radius:4px;
+  padding:5px 7px;display:flex;align-items:center;justify-content:space-between;
+}
+.pc-title{
+  font-size:6.5px;font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;color:#fff;font-family:var(--font-brand);
+}
+.pc-badge{
+  background:rgba(255,255,255,0.22);border-radius:3px;
+  padding:1px 4px;font-size:5px;color:#fff;
+  letter-spacing:0.06em;text-transform:uppercase;font-family:var(--font-body);
+}
+.pc-section-lbl{
+  font-size:5px;font-weight:700;letter-spacing:0.12em;
+  text-transform:uppercase;color:#999;font-family:var(--font-body);
+  margin-bottom:2px;
+}
+.pc-item{display:flex;align-items:flex-start;gap:4px;margin-bottom:4px;}
+.pc-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:2px;}
+.dot-r{background:#CC3333;}
+.dot-a{background:#E8A020;}
+.dot-g{background:#22AA55;}
+.pc-line{font-size:5.8px;line-height:1.45;color:#2A2A2A;font-family:var(--font-body);}
+.pc-line strong{font-weight:700;}
+.pc-divider{height:1px;background:#EBEBEB;}
+.pc-pills{display:flex;gap:3px;flex-wrap:wrap;}
+.pc-pill{
+  border-radius:20px;padding:2px 5px;
+  font-size:5px;font-weight:700;letter-spacing:0.04em;
+  font-family:var(--font-body);
+}
+.pill-r{background:#FAD8D8;color:#8A1A1A;}
+.pill-a{background:#FFF0D4;color:#9A5A00;}
+.pill-g{background:#D4F0E0;color:#1A7A40;}
+
+/* ── HERO CTA ── */
+.hero-cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-primary{
+  padding:0.85rem 2rem;background:var(--brand);color:#fff;
+  border:none;border-radius:8px;font-family:var(--font-body);
+  font-size:0.95rem;font-weight:700;cursor:pointer;text-decoration:none;
+  display:inline-block;transition:background 0.2s,transform 0.15s;
+}
+.btn-primary:hover{background:var(--brand-dark);transform:translateY(-2px);}
+.btn-ghost{
+  padding:0.85rem 2rem;background:transparent;color:#fff;
+  border:1.5px solid rgba(255,255,255,0.25);border-radius:8px;
+  font-family:var(--font-body);font-size:0.95rem;font-weight:600;
+  cursor:pointer;text-decoration:none;display:inline-block;
+  transition:border-color 0.2s,color 0.2s;
+}
+.btn-ghost:hover{border-color:var(--brand);color:var(--brand);}
+
+/* ── SECTIONS ── */
+section{padding:5.5rem 2rem;}
+.container{max-width:920px;margin:0 auto;}
+.eyebrow{
+  font-size:0.72rem;font-weight:700;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--brand);margin-bottom:1rem;
+}
+.section-head{
+  font-family:var(--font-display);
+  font-size:clamp(1.75rem,3.2vw,2.65rem);
+  font-weight:700;line-height:1.18;letter-spacing:-0.015em;
+  margin-bottom:1.2rem;color:var(--text);
+}
+.section-body{color:var(--text-muted);font-size:1rem;max-width:640px;line-height:1.75;}
+
+/* ── PROBLEM SECTION (light surface) ── */
+#problem{background:var(--surface);}
+.stat-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;margin-top:2.75rem;
+}
+.stat-card{
+  background:var(--bg);border:1.5px solid var(--border);
+  border-radius:12px;padding:1.75rem 1.5rem;text-align:center;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.stat-card:hover{border-color:var(--brand);box-shadow:0 4px 20px rgba(252,140,6,0.1);}
+.stat-num{
+  font-family:var(--font-display);font-size:2.6rem;font-weight:700;
+  color:var(--brand);line-height:1;margin-bottom:0.6rem;
+}
+.stat-label{font-size:0.82rem;color:var(--text-muted);line-height:1.55;}
+.stat-source{font-size:0.72rem;color:var(--text-light);font-style:italic;margin-top:0.5rem;}
+
+/* ── WHY IT MATTERS (white) ── */
+#why{background:var(--bg);}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:2.5rem;}
+.why-card{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:12px;padding:1.75rem;
+  border-left:4px solid var(--brand);
+}
+.why-card h3{
+  font-family:var(--font-display);font-size:1rem;font-weight:700;
+  margin-bottom:0.55rem;color:var(--text);
+}
+.why-card p{font-size:0.875rem;color:var(--text-muted);line-height:1.65;}
+
+/* ── SOLUTION (deep dark) ── */
+#solution{background:var(--deep-bg);}
+#solution .section-head{color:#fff;}
+#solution .section-body{color:rgba(255,255,255,0.6);}
+#solution .eyebrow{color:var(--brand);}
+
+/* widget demo */
+.widget-demo-wrap{
+  margin-top:3rem;display:flex;gap:3rem;
+  align-items:flex-start;justify-content:center;flex-wrap:wrap;
+}
+.edge-outer{width:320px;flex-shrink:0;}
+.edge-lbl{
+  font-size:0.72rem;font-weight:700;letter-spacing:0.12em;
+  text-transform:uppercase;color:rgba(255,255,255,0.35);
+  margin-bottom:0.75rem;text-align:center;font-family:var(--font-body);
+}
+.edge-shell{
+  border-radius:10px;overflow:hidden;
+  border:1.5px solid rgba(255,255,255,0.1);
+  box-shadow:0 14px 44px rgba(0,0,0,0.5);
+}
+.edge-chrome{
+  background:#242424;padding:7px 10px;
+  display:flex;align-items:center;gap:8px;
+}
+.edge-dots{display:flex;gap:4px;}
+.edge-dot{width:8px;height:8px;border-radius:50%;}
+.edge-url{
+  flex:1;background:#1A1A1A;border-radius:4px;
+  padding:4px 8px;font-size:9px;color:#555;
+  font-family:var(--font-body);letter-spacing:0.02em;
+}
+.edge-page{background:#F2F2F2;padding:14px;position:relative;min-height:185px;}
+.page-hdr{
+  font-size:9px;font-weight:700;color:#444;letter-spacing:0.06em;
+  text-transform:uppercase;border-bottom:1px solid #DDD;
+  padding-bottom:6px;margin-bottom:8px;font-family:var(--font-body);
+}
+.page-txt{font-size:7px;color:#777;line-height:1.6;font-family:var(--font-body);}
+.page-txt strong{color:#333;}
+/* widget overlay */
+.ewp{
+  position:absolute;right:8px;top:8px;width:128px;
+  background:#1C1C1C;border-radius:8px;overflow:hidden;
+  border:1px solid rgba(255,255,255,0.1);
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);
+}
+.ewp-hdr{
+  background:#141414;padding:6px 8px;
+  display:flex;align-items:center;gap:5px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.ewp-logo{
+  width:14px;height:14px;background:var(--brand);border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:5.5px;font-weight:800;color:#fff;font-family:var(--font-brand);
+}
+.ewp-title{
+  font-size:6.5px;font-weight:700;color:#fff;
+  letter-spacing:0.06em;text-transform:uppercase;font-family:var(--font-body);
+}
+.ewp-body{padding:7px 8px;display:flex;flex-direction:column;gap:5px;}
+.ewp-intake{
+  background:#111;border-radius:4px;padding:5px 6px;
+  display:flex;flex-direction:column;gap:2px;
+}
+.ewp-intake-lbl{font-size:5px;color:#555;text-transform:uppercase;letter-spacing:0.08em;font-family:var(--font-body);}
+.ewp-intake-val{font-size:6px;color:#999;font-family:var(--font-body);}
+.ewp-intake-val span{color:var(--brand);font-weight:700;}
+.ewp-btn{
+  background:var(--brand);color:#fff;border-radius:4px;
+  padding:4px 6px;font-size:6px;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;text-align:center;
+  font-family:var(--font-body);cursor:pointer;
+}
+.ewp-divider{font-size:5.5px;color:#444;text-align:center;font-family:var(--font-body);}
+.ewp-pills{display:flex;flex-direction:column;gap:3px;}
+.ewp-pill{
+  border-radius:3px;padding:3px 5px;font-size:5.5px;font-weight:700;
+  font-family:var(--font-body);display:flex;align-items:center;gap:3px;
+}
+.ep-r{background:rgba(204,51,51,0.15);color:#EE6666;}
+.ep-a{background:rgba(232,160,32,0.15);color:#E8A020;}
+.ep-g{background:rgba(34,170,85,0.15);color:#55CC88;}
+
+/* explainer list beside widget */
+.widget-explainer{max-width:360px;}
+.widget-explainer h3{
+  font-family:var(--font-display);font-size:1.3rem;font-weight:700;
+  color:#fff;margin-bottom:1.25rem;line-height:1.3;
+}
+.exp-item{display:flex;gap:0.75rem;align-items:flex-start;margin-bottom:1rem;}
+.exp-num{
+  width:26px;height:26px;background:var(--brand);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.72rem;font-weight:700;color:#fff;flex-shrink:0;margin-top:0.1rem;
+}
+.exp-item-title{font-weight:700;font-size:0.9rem;color:#fff;margin-bottom:0.2rem;}
+.exp-item-body{font-size:0.82rem;color:rgba(255,255,255,0.55);line-height:1.55;}
+
+/* ── COMPARISON TABLE (light surface) ── */
+#diff{background:var(--surface);}
+.diff-table{
+  margin-top:2.5rem;border:1.5px solid var(--border);
+  border-radius:12px;overflow:hidden;
+}
+.diff-head{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;
+  background:var(--deep-bg);
+}
+.diff-th{
+  padding:1rem 1.25rem;font-size:0.78rem;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.55);
+  font-family:var(--font-body);
+}
+.diff-th.hl{color:var(--brand);}
+.diff-row{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;
+  border-top:1px solid var(--border);background:var(--bg);
+}
+.diff-row:nth-child(even){background:var(--surface);}
+.diff-cell{
+  padding:0.85rem 1.25rem;font-size:0.83rem;
+  color:var(--text-muted);display:flex;align-items:center;gap:0.45rem;
+}
+.diff-cell.feat{color:var(--text);font-weight:600;}
+.diff-cell.hl{color:var(--text);}
+.tick{color:#22AA55;font-size:0.95rem;font-weight:700;}
+.cross{color:#CC3333;font-size:0.95rem;font-weight:700;}
+.part{color:#E8A020;font-size:0.95rem;}
+
+/* ── ICT OPPORTUNITIES (deep) ── */
+#ict{background:var(--deep-bg2);}
+#ict .section-head{color:#fff;}
+#ict .section-body{color:rgba(255,255,255,0.55);}
+#ict .eyebrow{color:var(--brand);}
+
+.ict-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.25rem;margin-top:2.75rem;
+}
+.ict-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;padding:1.6rem;
+  transition:border-color 0.2s,background 0.2s;
+}
+.ict-card:hover{
+  border-color:rgba(252,140,6,0.4);
+  background:rgba(252,140,6,0.04);
+}
+.ict-icon{
+  font-size:1.5rem;margin-bottom:0.75rem;
+}
+.ict-card h3{
+  font-family:var(--font-display);font-size:0.95rem;font-weight:700;
+  color:#fff;margin-bottom:0.5rem;
+}
+.ict-card p{font-size:0.8rem;color:rgba(255,255,255,0.45);line-height:1.6;}
+.ict-tag{
+  display:inline-block;margin-top:0.75rem;
+  background:rgba(252,140,6,0.12);border-radius:20px;
+  padding:3px 10px;font-size:0.68rem;font-weight:700;
+  letter-spacing:0.06em;color:var(--brand);text-transform:uppercase;
+  font-family:var(--font-body);
+}
+
+/* ── CTA ── */
+#cta{background:var(--brand);text-align:center;}
+#cta .section-head{color:#fff;}
+#cta .section-body{color:rgba(255,255,255,0.8);margin:0 auto 2rem;}
+.btn-white{
+  padding:0.9rem 2.25rem;background:#fff;color:var(--brand-dark);
+  border:none;border-radius:8px;font-family:var(--font-body);
+  font-size:0.95rem;font-weight:700;cursor:pointer;text-decoration:none;
+  display:inline-block;transition:background 0.2s,transform 0.15s;
+}
+.btn-white:hover{background:var(--brand-light);transform:translateY(-2px);}
+.btn-ghost-white{
+  padding:0.9rem 2.25rem;background:transparent;color:#fff;
+  border:2px solid rgba(255,255,255,0.4);border-radius:8px;
+  font-family:var(--font-body);font-size:0.95rem;font-weight:600;
+  cursor:pointer;text-decoration:none;display:inline-block;
+  transition:border-color 0.2s;
+}
+.btn-ghost-white:hover{border-color:#fff;}
+
+/* ── FOOTER ── */
+footer{
+  background:#04090F;padding:1.25rem 2.5rem;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+}
+.footer-brand{
+  font-family:var(--font-brand);font-size:0.88rem;
+  font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:0.06em;
+}
+.footer-brand .ai{color:var(--brand);}
+footer span:last-child{font-size:0.75rem;color:rgba(255,255,255,0.22);font-style:italic;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  .contrast-wrap{flex-direction:column;align-items:center;}
+  .contrast-vs{padding-top:0;}
+  .stat-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr;}
+  .ict-grid{grid-template-columns:1fr 1fr;}
+  .diff-head,.diff-row{grid-template-columns:1fr;}
+  .widget-demo-wrap{flex-direction:column;align-items:center;}
+  nav{padding:1rem 1.25rem;}
+}
+@media(max-width:480px){
+  .ict-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+  <div class="gate-inner">
+    <div class="gate-logo">PL<span class="ai">AI</span>N TERMS</div>
+    <div class="gate-sub">Partner preview — enter access code</div>
+    <div class="gate-row">
+      <input type="password" id="gate-input" placeholder="Access code"
+             onkeydown="if(event.key==='Enter')checkGate()">
+      <button onclick="checkGate()">Enter</button>
+    </div>
+    <div class="gate-error" id="gate-error">Incorrect code. Try again.</div>
+  </div>
+</div>
+
+<div id="main">
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-brand">PL<span class="ai">AI</span>N TERMS</a>
+  <div class="nav-links">
+    <a href="#problem">The Problem</a>
+    <a href="#solution">The Solution</a>
+    <a href="#diff">How It Differs</a>
+    <a href="#ict">ICT Opportunity</a>
+    <a href="#cta">Contact</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow fade-up">The Everyday Technologist · Concept Pitch</div>
+    <h1 class="fade-up">You clicked <em>agree.</em><br>But do you know what you agreed to?</h1>
+
+    <div class="contrast-wrap fade-up">
+
+      <!-- LEFT: leatherbound bookcase -->
+      <div class="contrast-side">
+        <div class="contrast-label not-label">What you're given<em>Terms &amp; Conditions today</em></div>
+        <div class="bookcase-frame">
+          <div class="bc-bar">
+            <div class="bc-dot" style="background:#FF5F57"></div>
+            <div class="bc-dot" style="background:#FEBC2E"></div>
+            <div class="bc-dot" style="background:#28C840"></div>
+          </div>
+          <div class="bc-body">
+            <div class="bc-books">
+              <div class="bk bk1"><span class="bk-txt">Terms</span></div>
+              <div class="bk bk2"><span class="bk-txt">And</span></div>
+              <div class="bk bk3"><span class="bk-txt">Conditions</span></div>
+              <div class="bk bk4"><span class="bk-txt">Privacy</span></div>
+              <div class="bk bk5"><span class="bk-txt">Policy</span></div>
+            </div>
+            <div class="bc-shelf"></div>
+            <div class="bc-footnote">§ 1.2(b)(iv) notwithstanding clause 7, sub-clause (a)…</div>
+          </div>
+        </div>
+        <div class="contrast-caption">Dense legalese. Thousands of words. Designed to be accepted, not read.</div>
+      </div>
+
+      <div class="contrast-vs">vs</div>
+
+      <!-- RIGHT: plain language output -->
+      <div class="contrast-side">
+        <div class="contrast-label but-label">What people need<em>with PL<span style="color:var(--brand)">AI</span>N TERMS</em></div>
+        <div class="plain-card-frame">
+          <div class="pc-bar">
+            <div class="bc-dot" style="background:#FF5F57"></div>
+            <div class="bc-dot" style="background:#FEBC2E"></div>
+            <div class="bc-dot" style="background:#28C840"></div>
+          </div>
+          <div class="pc-body">
+            <div class="pc-header">
+              <span class="pc-title">PL<span style="opacity:0.65">AI</span>N TERMS</span>
+              <span class="pc-badge">AU · Personal</span>
+            </div>
+            <div>
+              <div class="pc-section-lbl">What this means for you</div>
+              <div class="pc-item">
+                <div class="pc-dot dot-r"></div>
+                <div class="pc-line">They <strong>sell your data</strong> to advertisers. No opt-out.</div>
+              </div>
+              <div class="pc-item">
+                <div class="pc-dot dot-a"></div>
+                <div class="pc-line">Terms can change with <strong>30 days notice.</strong></div>
+              </div>
+              <div class="pc-item">
+                <div class="pc-dot dot-g"></div>
+                <div class="pc-line">You <strong>can request deletion</strong> under Privacy Act APP 12.</div>
+              </div>
+            </div>
+            <div class="pc-divider"></div>
+            <div>
+              <div class="pc-section-lbl">Risk summary</div>
+              <div class="pc-pills">
+                <span class="pc-pill pill-r">Data sharing ⚠</span>
+                <span class="pc-pill pill-a">Auto-renew</span>
+                <span class="pc-pill pill-g">Delete right ✓</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contrast-caption">Plain language. Your rights. Your jurisdiction. In seconds.</div>
+      </div>
+
+    </div>
+
+    <div class="hero-cta-row fade-up">
+      <a href="#solution" class="btn-primary">See how it works →</a>
+      <a href="#cta" class="btn-ghost">Start a conversation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROBLEM ── -->
+<section id="problem">
+  <div class="container">
+    <p class="eyebrow fade-up">The research is unambiguous</p>
+    <h2 class="section-head fade-up">Nobody reads them.<br>And that has real consequences.</h2>
+    <p class="section-body fade-up">The evidence has been building for decades. The problem isn't apathy — it's a system designed to be impossible to engage with meaningfully.</p>
+
+    <div class="stat-grid fade-up">
+      <div class="stat-card">
+        <div class="stat-num">91%</div>
+        <div class="stat-label">of consumers agree to T&Cs without reading them — rising to 97% among 18–34 year olds</div>
+        <div class="stat-source">Deloitte, 2017</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">76</div>
+        <div class="stat-label">working days it would take the average person to read every privacy policy they encounter in a year</div>
+        <div class="stat-source">Carnegie Mellon University</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">98%</div>
+        <div class="stat-label">of participants missed a clause surrendering their firstborn child — embedded in a research study's own T&C</div>
+        <div class="stat-source">Obar &amp; Oeldorf-Hirsch, 2016 — NameDrop study</div>
+      </div>
+    </div>
+
+    <div class="stat-grid fade-up" style="grid-template-columns:1fr 1fr;margin-top:1.25rem;">
+      <div class="stat-card">
+        <div class="stat-num">7</div>
+        <div class="stat-label">out of more than 4,500 users clicked through to read T&Cs when the link appeared at the page margin rather than being prompted</div>
+        <div class="stat-source">Marotta-Wurgler, 2012</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">51s</div>
+        <div class="stat-label">average reading time for T&Cs estimated to take 15–17 minutes — even among participants in a study <em>about</em> T&C reading</div>
+        <div class="stat-source">Obar &amp; Oeldorf-Hirsch, 2016</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY ── -->
+<section id="why">
+  <div class="container">
+    <p class="eyebrow fade-up">Why this isn't just inconvenient</p>
+    <h2 class="section-head fade-up">The gap between what people click<br>and what they understand has real costs.</h2>
+
+    <div class="why-grid fade-up">
+      <div class="why-card">
+        <h3>Data sold without meaningful consent</h3>
+        <p>Under Australia's Privacy Act, not opting out within 30 days of a written notice can be treated as implied consent — a standard most users never encounter because they didn't read the document that mentioned it.</p>
+      </div>
+      <div class="why-card">
+        <h3>Rights that exist but aren't exercised</h3>
+        <p>Australians have real rights under the Privacy Act — to access, correct, and complain about their data. EU residents have stronger rights still under GDPR. These rights go unused because people don't know they have them.</p>
+      </div>
+      <div class="why-card">
+        <h3>Identity theft and financial harm</h3>
+        <p>Data shared with third parties — often unknowingly agreed to — becomes a vulnerability. Breaches expose information users didn't realise had been collected or shared, with documented psychological and financial consequences.</p>
+      </div>
+      <div class="why-card">
+        <h3>AI tools alone don't close the gap</h3>
+        <p>Handing someone a Copilot pop-out and saying "AI has solved this" assumes they know what question to ask, what a useful answer looks like, and what to do with it. People without that map never even start the journey.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SOLUTION ── -->
+<section id="solution">
+  <div class="container">
+    <p class="eyebrow fade-up">The Everyday Technologist · PLAIN TERMS</p>
+    <h2 class="section-head fade-up">Not a summariser.<br>A personalised rights briefing.</h2>
+    <p class="section-body fade-up">PLAIN TERMS starts with the person, not the document. Before analysing any T&C, it asks three simple questions: where you are, what you're signing up for, and what matters most to you. The output isn't condensed legalese — it's a plain-English explanation of what this means for <em>you</em>, under the law that applies to <em>you</em>.</p>
+
+    <div class="widget-demo-wrap fade-up">
+
+      <!-- Edge browser mockup -->
+      <div class="edge-outer">
+        <div class="edge-lbl">Edge Sidebar Widget — concept</div>
+        <div class="edge-shell">
+          <div class="edge-chrome">
+            <div class="edge-dots">
+              <div class="edge-dot" style="background:#FF5F57"></div>
+              <div class="edge-dot" style="background:#FEBC2E"></div>
+              <div class="edge-dot" style="background:#28C840"></div>
+            </div>
+            <div class="edge-url">facebook.com/privacy/policy/</div>
+          </div>
+          <div class="edge-page">
+            <div class="page-hdr">Facebook Privacy Policy</div>
+            <div class="page-txt">
+              <strong>1. What information do we collect?</strong><br>
+              We collect information you provide directly, information about your activity on and off our products, information from partners, and information about your device, network, and connections. This includes device identifiers, browser type, location data derived from IP address, cookie data and…
+            </div>
+            <div class="ewp">
+              <div class="ewp-hdr">
+                <div class="ewp-logo">PT</div>
+                <div class="ewp-title">Plain Terms</div>
+              </div>
+              <div class="ewp-body">
+                <div class="ewp-intake">
+                  <div class="ewp-intake-lbl">Analysing for</div>
+                  <div class="ewp-intake-val"><span>Australia</span> · Personal</div>
+                  <div class="ewp-intake-val">Focus: <span>data sharing</span></div>
+                </div>
+                <div class="ewp-btn">Analyse this page</div>
+                <div class="ewp-divider">— What this means for you —</div>
+                <div class="ewp-pills">
+                  <div class="ewp-pill ep-r">⚠ Data sold to advertisers</div>
+                  <div class="ewp-pill ep-r">⚠ No profiling opt-out</div>
+                  <div class="ewp-pill ep-a">~ 30-day change notice</div>
+                  <div class="ewp-pill ep-g">✓ APP 12 deletion right</div>
+                  <div class="ewp-pill ep-g">✓ Can request your data</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- explainer -->
+      <div class="widget-explainer">
+        <h3>The widget that existing tools don't build</h3>
+        <div class="exp-item">
+          <div class="exp-num">1</div>
+          <div>
+            <div class="exp-item-title">Starts with you</div>
+            <div class="exp-item-body">Jurisdiction, context, and concerns captured upfront — so the output is relevant to your situation, not a generic summary for a generic person.</div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-num">2</div>
+          <div>
+            <div class="exp-item-title">Plain language, not a summary</div>
+            <div class="exp-item-body">The output explains consequences and rights in everyday English — not condensed legalese, but a genuine translation into what this means in practice.</div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-num">3</div>
+          <div>
+            <div class="exp-item-title">Your rights, your law</div>
+            <div class="exp-item-body">Australian Privacy Act, GDPR, or other applicable frameworks surfaced where relevant — as actionable information, not buried footnotes.</div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-num">4</div>
+          <div>
+            <div class="exp-item-title">No tool-switching required</div>
+            <div class="exp-item-body">Lives in the Edge sidebar. Works on the page you're already on. No copy-pasting, no new tab, no knowing the right questions in advance.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── COMPARISON ── -->
+<section id="diff">
+  <div class="container">
+    <p class="eyebrow fade-up">How PLAIN TERMS is different</p>
+    <h2 class="section-head fade-up">Other tools summarise.<br>PLAIN TERMS contextualises.</h2>
+    <p class="section-body fade-up">Other tools exist for this. Some are paid, some work only in specific browsers, and most focus on analysing the document rather than helping people understand what it means for their own lives.</p>
+
+    <div class="diff-table fade-up">
+      <div class="diff-head">
+        <div class="diff-th">Capability</div>
+        <div class="diff-th">SimpliTerms / ToS;DR</div>
+        <div class="diff-th hl">PLAIN TERMS</div>
+      </div>
+      <div class="diff-row">
+        <div class="diff-cell feat">Simplifies long T&Cs</div>
+        <div class="diff-cell"><span class="tick">✓</span> Generic summary</div>
+        <div class="diff-cell hl"><span class="tick">✓</span> Plain-language briefing</div>
+      </div>
+      <div class="diff-row">
+        <div class="diff-cell feat">Knows where you live</div>
+        <div class="diff-cell"><span class="cross">✗</span> Not considered</div>
+        <div class="diff-cell hl"><span class="tick">✓</span> AU, EU, UK and more</div>
+      </div>
+      <div class="diff-row">
+        <div class="diff-cell feat">Surfaces your legal rights</div>
+        <div class="diff-cell"><span class="cross">✗</span> Document view only</div>
+        <div class="diff-cell hl"><span class="tick">✓</span> Privacy Act, GDPR cited</div>
+      </div>
+      <div class="diff-row">
+        <div class="diff-cell feat">Personalised to context</div>
+        <div class="diff-cell"><span class="cross">✗</span> Same output for all</div>
+        <div class="diff-cell hl"><span class="tick">✓</span> Personal / work / children</div>
+      </div>
+      <div class="diff-row">
+        <div class="diff-cell feat">Designed for everyday people</div>
+        <div class="diff-cell"><span class="part">~</span> Assumes digital confidence</div>
+        <div class="diff-cell hl"><span class="tick">✓</span> No expertise required</div>
+      </div>
+      <div class="diff-row">
+        <div class="diff-cell feat">Integrated browser experience</div>
+        <div class="diff-cell"><span class="part">~</span> Chrome only, paid tier</div>
+        <div class="diff-cell hl"><span class="tick">✓</span> Edge sidebar widget</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ICT OPPORTUNITIES ── -->
+<section id="ict">
+  <div class="container">
+    <p class="eyebrow fade-up">For ICT students &amp; educators</p>
+    <h2 class="section-head fade-up">A real brief. Real users.<br>Real learning opportunities.</h2>
+    <p class="section-body fade-up">PLAIN TERMS is proposed as a collaborative ICT student project — not another to-do app, but a civic technology tool with documented social need and a genuine deployment pathway. The technical challenges span multiple disciplines.</p>
+
+    <div class="ict-grid fade-up">
+
+      <div class="ict-card">
+        <div class="ict-icon">🤖</div>
+        <h3>Agentic AI Design</h3>
+        <p>Designing AI agents that intake user context, fetch and parse legal documents, and produce jurisdiction-aware output — moving beyond single-prompt interactions to multi-step reasoning chains.</p>
+        <span class="ict-tag">AI / LLM</span>
+      </div>
+
+      <div class="ict-card">
+        <div class="ict-icon">🔧</div>
+        <h3>Prompt Engineering</h3>
+        <p>Developing and iterating system prompts that produce consistent, plain-language output across varied T&C documents — including evaluation methodology for measuring readability and accuracy.</p>
+        <span class="ict-tag">AI / NLP</span>
+      </div>
+
+      <div class="ict-card">
+        <div class="ict-icon">🧩</div>
+        <h3>Browser Widget Development</h3>
+        <p>Building an Edge sidebar extension that detects legal documents, activates contextually, and communicates with the Anthropic API — from manifest configuration to sidebar UI rendering.</p>
+        <span class="ict-tag">Extension Dev</span>
+      </div>
+
+      <div class="ict-card">
+        <div class="ict-icon">🎨</div>
+        <h3>UI &amp; UX Design</h3>
+        <p>Designing an interface that is genuinely usable by people with low digital confidence — not just technically functional. Includes intake flow design, output hierarchy, and accessibility compliance (WCAG 2.1).</p>
+        <span class="ict-tag">UX / Accessibility</span>
+      </div>
+
+      <div class="ict-card">
+        <div class="ict-icon">🌐</div>
+        <h3>API &amp; Web Integration</h3>
+        <p>Fetching T&C pages by URL, parsing HTML to isolate legal text, and integrating with the Anthropic API — plus handling rate limits, errors, and variable document structures gracefully.</p>
+        <span class="ict-tag">Backend / API</span>
+      </div>
+
+      <div class="ict-card">
+        <div class="ict-icon">⚖️</div>
+        <h3>Jurisdictional Knowledge Modelling</h3>
+        <p>Encoding the Australian Privacy Principles, GDPR, and other frameworks as structured context that the AI can reason against — mapping rights to jurisdictions and surfacing them correctly per user.</p>
+        <span class="ict-tag">Information Architecture</span>
+      </div>
+
+      <div class="ict-card">
+        <div class="ict-icon">🧪</div>
+        <h3>Testing &amp; Evaluation</h3>
+        <p>How do you measure whether a plain-language output is actually more understandable? Designing evaluation methodology — readability scoring, user comprehension testing, accuracy benchmarking — is a genuine research challenge.</p>
+        <span class="ict-tag">QA / Research</span>
+      </div>
+
+      <div class="ict-card">
+        <div class="ict-icon">🔒</div>
+        <h3>Privacy &amp; Data Ethics</h3>
+        <p>A tool designed to protect user privacy must itself handle user data responsibly. Students engage directly with the privacy principles they're surfacing for others — a hands-on applied ethics module.</p>
+        <span class="ict-tag">Ethics / Governance</span>
+      </div>
+
+      <div class="ict-card">
+        <div class="ict-icon">♿</div>
+        <h3>Accessibility Engineering</h3>
+        <p>The target audience demands it — older Australians, people with lower digital literacy, non-native English speakers. WCAG compliance, plain language standards, and inclusive design are not optional extras here.</p>
+        <span class="ict-tag">Accessibility / WCAG</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta">
+  <div class="container fade-up" style="text-align:center;">
+    <p class="eyebrow" style="color:rgba(255,255,255,0.65);">Get involved</p>
+    <h2 class="section-head" style="color:#fff;">This is the beginning.<br>Not the finished article.</h2>
+    <p class="section-body" style="color:rgba(255,255,255,0.75);margin:0 auto 2rem;">PLAIN TERMS is a working concept pitch from The Everyday Technologist. If you run an ICT programme, community digital literacy initiative, or fund projects that help everyday Australians navigate technology — this conversation is for you.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="mailto:hello@everydaytech.com.au" class="btn-white">Start a conversation →</a>
+      <a href="https://everydaytech.com.au" class="btn-ghost-white" target="_blank">The Everyday Technologist</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-brand">PL<span class="ai">AI</span>N TERMS · The Everyday Technologist</span>
+  <span>Partner preview — not for public distribution</span>
+</footer>
+
+</div><!-- /main -->
+
+<script>
+const CODE = 'plainterms';
+function checkGate(){
+  const v = document.getElementById('gate-input').value.trim().toLowerCase();
+  const err = document.getElementById('gate-error');
+  if(v === CODE){
+    document.getElementById('gate').style.display='none';
+    document.getElementById('main').style.display='block';
+    initObserver();
+  } else {
+    err.style.display='block';
+    err.textContent='Incorrect code. Try again.';
+    document.getElementById('gate-input').value='';
+  }
+}
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40);
+});
+function initObserver(){
+  const els=document.querySelectorAll('.fade-up');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:0.1});
+  els.forEach(el=>obs.observe(el));
+}
+</script>
+</body>
+</html>
